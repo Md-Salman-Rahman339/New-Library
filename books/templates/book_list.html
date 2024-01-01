@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2>Book List</h2>
+    
+    <div class="row">
+        <div class="col-md-3">
+            <h4>Categories</h4>
+            <ul class="list-group">
+                {% for category in categories %}
+                  
+                   <li class="list-group-item"><a href="{% url 'category_wise_post' category.slug %}">{{ category.Name }}</a></li>
+
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="col-md-9">
+            <div class="row">
+                {% for book in data %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="{{ book.image.url }}" class="card-img-top" alt="{{ book.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ book.title }}</h5>
+                                <p class="card-text">{{ book.description |truncatewords:10 }}</p>
+
+                                <p class="card-text"><strong>Price:</strong> {{ book.borrowing_price }}$</p>
+                                {% comment %} <h5 class=""><span class="text-secondary">Category Name: </span>{{ book.category.Name }}</h5> {% endcomment %}
+                                <a href="{% url 'details_view' pk=book.id %}" class="btn btn-primary">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
