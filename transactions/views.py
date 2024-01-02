@@ -28,11 +28,10 @@ class TransactionCreateMixin(LoginRequiredMixin, CreateView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         user = self.request.user
-        # Check if the user has an associated account
         if hasattr(user, 'account'):
             kwargs.update({'account': user.account})
         else:
-            # Handle the case where the user has no account
+           
             raise Http404("User has no account.")
         return kwargs
 
