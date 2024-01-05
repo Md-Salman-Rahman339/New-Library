@@ -28,12 +28,15 @@ def send_transaction_email(user, subject, template):
 @login_required
 def book_view(request, category_slug=None):
     categories = Category.objects.all()
+    
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         data = Book.objects.filter(category=category)
     else:
         data = Book.objects.all()
+
     return render(request, 'book_list.html', {'data': data, 'categories': categories})
+
 @method_decorator(login_required, name='dispatch')
 class DetailsPost(DetailView):
     model = models.Book
@@ -59,24 +62,28 @@ class DetailsPost(DetailView):
         context['comments'] = comments
         context['comment_form'] = comment_form
         return context
-
-
-class BorrowBookView(View):
-    def get(self, request, book_id):
-        book = get_object_or_404(Book, pk=book_id)
+    
+def borrow_book(request, book_id):
+    book = get_object_or_404(Book, pk=book_id)
+    if request.method == 'GET':
         return render(request, 'borrow_book.html', {'book': book})
-
-    def post(self, request, book_id):
-        book = get_object_or_404(Book, pk=book_id)
+    elif request.method == 'POST':
         if request.user.account.balance >= book.borrowing_price:
             request.user.account.balance -= book.borrowing_price
+            request.user.account.save()
             BorrowedBook.objects.create(user=request.user, book=book)
 
             messages.success(request, f"You have successfully borrowed {book.title}.")
         else:
             messages.error(request, "Insufficient funds to borrow the book.")
+
         send_transaction_email(request.user, "borrowed Message", "borrow_email.html")
         return redirect('book_list')
+
+
+
+
+
 
 @login_required
 def return_book(request, book_id):

@@ -9,6 +9,7 @@ from django.shortcuts import redirect
 from books.models import Book,BorrowedBook
 
 
+
 class UserRegistrationView(FormView):
     template_name = 'user_registration.html'
     form_class = UserRegistrationForm
@@ -48,6 +49,5 @@ class UserBankAccountUpdateView(View):
             form.save()
             return redirect('profile')
         return render(request, self.template_name, {'form': form, 'data': user_bought_books})
-
     
     

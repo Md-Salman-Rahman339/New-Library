@@ -13,7 +13,10 @@
         <p class=""><span class="text-secondary">Price: </span>{{ book.borrowing_price }}$</p>
         <p class='text-secondary'>Description:</p>
         <p class='mx-4'>{{ book.description }}</p>
-        {% comment %} <h5 class=""><span class="text-secondary">Category Name: </span>{{ book.categories.Name }}</h5> {% endcomment %}
+        {% for category in book.category.all %}
+        <h3 class="bg-warning text-primary">{{ category.Name }}</h3>
+        {% endfor %}
+
         
         {% if request.user.is_authenticated %}
         <form method="post" action="{% url 'borrow_book' book.id %}">

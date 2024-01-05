@@ -130,6 +130,7 @@
         <th scope="col">id</th>
         <th scope="col">Book</th>
         <th scope="col">Price</th>
+        <th scope="col">Borrowing Date</th>
         <th scope="col">Return Book</th>
       </tr>
     </thead>
@@ -140,6 +141,7 @@
         <th scope="row">{{val.book.id}}</th>
         <td>{{val.book.title}}</td>
         <td>{{val.book.borrowing_price}}</td>
+        <td>{{val.date}}</td>
         <td><a href="{% url 'return_book' book_id=val.book.id %}">Return</a></td>
       </tr>
      

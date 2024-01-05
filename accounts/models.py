@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from books.models import Book
 from .constants import  GENDER_TYPE
 # Create your models here.
 class UserAccount(models.Model):
@@ -26,4 +27,3 @@ class UserAddress(models.Model):
     def __str__(self):
         return str(self.user.email)
 
-    

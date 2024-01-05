@@ -27,7 +27,12 @@
                                 <p class="card-text">{{ book.description |truncatewords:10 }}</p>
 
                                 <p class="card-text"><strong>Price:</strong> {{ book.borrowing_price }}$</p>
-                                {% comment %} <h5 class=""><span class="text-secondary">Category Name: </span>{{ book.category.Name }}</h5> {% endcomment %}
+                                {% for category in book.category.all %}
+                                    <h3 class="bg-warning text-primary">{{ category.Name }}</h3>
+                                {% endfor %}
+
+
+
                                 <a href="{% url 'details_view' pk=book.id %}" class="btn btn-primary">Details</a>
                             </div>
                         </div>
